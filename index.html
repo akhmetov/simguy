@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>SimGuy 2016</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+<body>
+
+<div class="container">
+
+<h1>SimGuy 2016</h1>
+
+<h2>Servers</h2>
+
+<table class="table table-bordered">
+<thead>
+	<tr>
+		<td>Сервер</td>
+		<td>Статус</td>
+		<td>Волшебная кнопка</td>
+		<td>Даунтайм</td>
+	</tr>
+</thead>
+<tbody>
+	<tr id="b" class="server">
+		<td>Балансер</td>
+		<td><span class="status label label-default">выключена</span></td>
+		<td>
+			<button type="button" class="on btn btn-success btn-xs" onclick="serverOn('b');">включить</button>
+			<button type="button" class="off btn btn-danger btn-xs" onclick="serverOff('b');">выключить</button>
+		</td>
+		<td><span class="downtime"></span></td>
+	</tr>
+	<tr id="w1" class="server">
+		<td>Вебнода 1</td>
+		<td><span class="status label label-default">выключена</span></td>
+		<td>
+			<button type="button" class="off btn btn-success btn-xs" onclick="serverOff('w1');">выключить</button>
+			<button type="button" class="on btn btn-danger btn-xs" onclick="serverOn('w1');">включить</button>
+		</td>
+		<td><span class="downtime"></span></td>
+	</tr>
+	<tr id="w2" class="server">
+		<td>Вебнода 2</td>
+		<td><span class="status label label-default">выключена</span></td>
+		<td>
+			<button type="button" class="off btn btn-danger btn-xs" onclick="serverOff('w2');">выключить</button>
+			<button type="button" class="on btn btn-success btn-xs" onclick="serverOn('w2');">включить</button>
+		</td>
+		<td><span class="downtime"></span></td>
+	</tr>
+	<tr id="lib" class="server">
+		<td>Библиотека</td>
+		<td><span class="status label label-default">выключена</span></td>
+		<td>
+			<button type="button" class="off btn btn-danger btn-xs" onclick="serverOff('lib');">выключить</button>
+			<button type="button" class="on btn btn-success btn-xs" onclick="serverOn('lib');">включить</button>
+		</td>
+		<td><span class="downtime"></span></td>
+	</tr>
+	<tr id="mail" class="server">
+		<td>Почта</td>
+		<td><span class="status label label-default">выключена</span></td>
+		<td>
+			<button type="button" class="off btn btn-danger btn-xs" onclick="serverOff('mail');">выключить</button>
+			<button type="button" class="on btn btn-success btn-xs" onclick="serverOn('mail');">включить</button>
+		</td>
+		<td><span class="downtime"></span></td>
+	</tr>
+</tbody>
+</table>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<h2>ToDo List</h2>
+
+<ol id="todo">
+</ol>
+
+</div>
+<div>
+
+<button type="button" class="btn btn-success btn-xl" onclick="notebook = true;">Запустить сайт на ноутбуке</button> <button type="button" class="btn btn-danger btn-xl" onclick="deploy();">Деплоить</button>
+</div>
+</div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script>
+
+function serverOn(name) {
+	$('#' + name + ' .status').removeClass('label-default label-danger').addClass('label-success');
+}
+function serverOff(name) {
+	$('#' + name + ' .status').removeClass('label-success label-danger').addClass('label-default');
+}
+function serverOh(name) {
+	$('#' + name + ' .status').removeClass('label-success label-default').addClass('label-danger');
+}
+
+var features = ['рассчета', 'библиотек', 'переезд', 'логирование'];
+var todos = ['Ресерч', 'Митинг', 'Митинг', 'Встреча', 'Встреча', 'Сделать', 'Деплой'];
+
+function getRandom(max) {
+	return Math.floor(Math.random() * (max));
+}
+
+function addTodo() {
+	$('#todo').prepend('<li>' + todos[getRandom(todos.length)] + ' ' + features[getRandom(features.length)] + '</li>');
+}
+
+function deploy() {
+	$('body').css({'background' : '#000'});
+	$('.container').hide();
+}
+
+var step = 1;
+
+var notebook = false;
+
+$(function() {
+
+serverOn('w1');
+serverOn('w2');
+serverOn('b');
+serverOn('lib');
+serverOn('mail');
+
+setInterval(function() {
+	addTodo();
+}, 2000);
+setInterval(function() {
+	addTodo();
+	addTodo();
+	addTodo();
+	addTodo();
+	addTodo();
+}, 4000);
+
+setInterval(function() {
+
+	step++;
+
+	$('.server').each(function(i, item) {
+
+		//статусы строки
+		if ($('.status', item).hasClass('label-danger')) {
+			$(item).removeClass('success active').addClass('danger');
+			$('.status', item).text('#тяжеловато');
+			$('.off', item).attr('disabled', false);
+			$('.on', item).attr('disabled', true);
+		}
+		if ($('.status', item).hasClass('label-success')) {
+			$(item).removeClass('active danger').addClass('success');
+			$('.status', item).text('работает');
+			$('.on', item).attr('disabled', true);
+			$('.off', item).attr('disabled', false);
+		}
+		if ($('.status', item).hasClass('label-default')) {
+			$(item).removeClass('success danger').addClass('active');
+			$('.status', item).text('выключен');
+			$('.on', item).attr('disabled', false);
+			$('.off', item).attr('disabled', true);
+		}
+
+		//даунтайм
+		if (!$('.status', item).hasClass('label-success')) {
+			var time = $('.downtime', item).text();
+			time++;
+			$('.downtime', item).text(time);
+		}
+	});
+
+	if (!notebook) {
+
+		if (step % 5 == 0) {
+			serverOh('w1');
+		}
+		if (step % 7 == 0) {
+			serverOh('w2');
+		}
+		if (step % 10 == 0) {
+			serverOh('b');
+			serverOff('w1');
+			serverOff('w2');
+		}
+		if (step % 15 == 0) {
+			serverOh('lib');
+		}
+
+	} else {
+		serverOn('w1');
+serverOn('w2');
+serverOn('b');
+serverOn('lib');
+serverOn('mail');
+	}
+
+}, 1000);
+
+});
+</script>
+</body>
+</html>
